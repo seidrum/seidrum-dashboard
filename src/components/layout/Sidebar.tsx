@@ -8,11 +8,12 @@ import {
   Key,
   Users,
   FileText,
+  Settings,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
 import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 
 const mainNav = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
@@ -21,6 +22,7 @@ const mainNav = [
   { to: '/plugins', icon: Puzzle, label: 'Plugins' },
   { to: '/traces', icon: Activity, label: 'Traces' },
   { to: '/api-keys', icon: Key, label: 'API Keys' },
+  { to: '/settings', icon: Settings, label: 'Settings' },
 ];
 
 const adminNav = [

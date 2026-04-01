@@ -3,7 +3,6 @@ import { ApiKeyList } from '@/components/apikeys/ApiKeyList';
 import { CreateApiKeyForm } from '@/components/apikeys/CreateApiKeyForm';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { EmptyState } from '@/components/common/EmptyState';
-import { createApiKey } from '@/api/apikeys';
 
 export function ApiKeysPage() {
   const { data: keys, isLoading, error } = useApiKeys();
@@ -18,8 +17,7 @@ export function ApiKeysPage() {
       <h1 className="text-2xl font-bold text-gray-100">API Keys</h1>
       <CreateApiKeyForm
         onSubmit={async (name, expiresInDays) => {
-          const key = await createApiKey({ name, expires_in_days: expiresInDays });
-          create.reset();
+          const key = await create.mutateAsync({ name, expires_in_days: expiresInDays });
           return key;
         }}
       />

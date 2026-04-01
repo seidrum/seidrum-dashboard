@@ -1,5 +1,5 @@
 import { useUsers, useUpdateRole, useDeleteUser } from '@/hooks/useUsers';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { UserList } from '@/components/users/UserList';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { EmptyState } from '@/components/common/EmptyState';

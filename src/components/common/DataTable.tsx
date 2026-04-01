@@ -30,6 +30,16 @@ export function DataTable<T>({ columns, data, keyExtractor, page, totalPages, on
     }
   }
 
+  const sortedData = sortKey
+    ? [...data].sort((a, b) => {
+        const aVal = (a as Record<string, unknown>)[sortKey];
+        const bVal = (b as Record<string, unknown>)[sortKey];
+        if (aVal == null || bVal == null) return 0;
+        const cmp = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+        return sortDir === 'asc' ? cmp : -cmp;
+      })
+    : data;
+
   return (
     <div className="overflow-x-auto rounded-lg border border-gray-800">
       <table className="w-full text-left text-sm">
@@ -52,7 +62,7 @@ export function DataTable<T>({ columns, data, keyExtractor, page, totalPages, on
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-800/50">
-          {data.map(row => (
+          {sortedData.map(row => (
             <tr key={keyExtractor(row)} className="hover:bg-gray-800/30">
               {columns.map(col => (
                 <td key={col.key} className="px-4 py-3 text-gray-300">

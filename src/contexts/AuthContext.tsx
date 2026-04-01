@@ -1,32 +1,24 @@
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
-import type { User } from '@/types';
+import { useState, useCallback, useEffect, type ReactNode } from 'react';
 import { setAccessToken, getAccessToken } from '@/api/client';
 import { getMe } from '@/api/users';
 import { login as apiLogin, register as apiRegister, revokeToken } from '@/api/auth';
-
-interface AuthState {
-  user: User | null;
-  isLoading: boolean;
-  isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<void>;
-  register: (username: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthState | null>(null);
+import { AuthContext } from './authState';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<import('@/types').User | null>(null);
+  const [isLoading, setIsLoading] = useState(!!getAccessToken());
 
   const fetchUser = useCallback(async () => {
     if (!getAccessToken()) return;
+    setIsLoading(true);
     try {
       const me = await getMe();
       setUser(me);
     } catch {
       setAccessToken(null);
       setUser(null);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -85,10 +77,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuth(): AuthState {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
-  return ctx;
 }
