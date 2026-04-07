@@ -150,6 +150,7 @@ export function ExportPresetModal({ data, onClose }: ExportPresetModalProps) {
 }
 
 function yamlQuote(value: string): string {
+  // eslint-disable-next-line no-useless-escape
   if (/[:{}\[\],&*#?|\-><!%@`"'\n]/.test(value) || value.trim() !== value) {
     return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`;
   }
@@ -159,7 +160,7 @@ function yamlQuote(value: string): string {
 function generatePresetYaml(data: PresetExport): string {
   const { preset } = data;
   const envRequiredList = preset.env_required && preset.env_required.length > 0
-    ? preset.env_required.map(e => `    - ${yamlQuote(e)}`).join('\n')
+    ? preset.env_required.map(e => `    - ${yamlQuote(e.key)}`).join('\n')
     : '';
 
   return `id: ${yamlQuote(preset.id)}

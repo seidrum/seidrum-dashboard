@@ -5,7 +5,6 @@ import {
   disablePlugin,
   startPlugin,
   stopPlugin,
-  type PluginFull,
 } from '@/api/pluginsMgmt';
 
 export function usePluginsFull() {

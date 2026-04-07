@@ -108,7 +108,6 @@ export function OnboardingPage() {
               presets={presets}
               selectedPreset={selectedPreset}
               onSelectPreset={handleSelectPreset}
-              onNext={handleNextFromWelcome}
             />
           )}
 
@@ -173,14 +172,12 @@ interface StepWelcomeProps {
   presets?: Preset[];
   selectedPreset: Preset | null;
   onSelectPreset: (preset: Preset) => void;
-  onNext: () => void;
 }
 
 function StepWelcome({
   presets,
   selectedPreset,
   onSelectPreset,
-  onNext,
 }: StepWelcomeProps) {
   return (
     <div className="space-y-6">
@@ -221,7 +218,7 @@ interface StepConfigureProps {
   errors?: string[];
 }
 
-function StepConfigure({ preset, onSave, isSaving, errors = [] }: StepConfigureProps) {
+function StepConfigure({ preset, onSave, errors = [] }: StepConfigureProps) {
   if (!preset.env_required.length) {
     return (
       <div className="space-y-6">

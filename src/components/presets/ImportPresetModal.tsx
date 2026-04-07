@@ -79,7 +79,7 @@ export function ImportPresetModal({ onClose }: ImportPresetModalProps) {
         setYamlContent(text);
         setTab('yaml');
         setError(null);
-      } catch (err) {
+      } catch {
         setError('Failed to read file');
       }
     }
