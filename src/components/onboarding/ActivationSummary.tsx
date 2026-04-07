@@ -8,6 +8,7 @@ interface Props {
   onToggleRecommended: () => void;
   onActivate: () => Promise<void>;
   isActivating: boolean;
+  error?: string | null;
 }
 
 export function ActivationSummary({
@@ -16,16 +17,10 @@ export function ActivationSummary({
   onToggleRecommended,
   onActivate,
   isActivating,
+  error,
 }: Props) {
-  const [error, setError] = useState<string | null>(null);
-
   const handleActivate = async () => {
-    try {
-      setError(null);
-      await onActivate();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to activate preset');
-    }
+    await onActivate();
   };
 
   const pluginsToEnable = [

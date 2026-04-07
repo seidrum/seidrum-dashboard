@@ -24,7 +24,7 @@ export function ConfigForm({ requirements, onSave }: Props) {
       setLoading(true);
       setError(null);
       await onSave(values);
-      setValues(requirements.reduce((acc: Record<string, string>, req: any) => ({ ...acc, [req.key]: '' }), {}));
+      setValues(requirements.reduce((acc: Record<string, string>, req: { key: string; label: string; auto_generate?: boolean; help?: string }) => ({ ...acc, [req.key]: '' }), {}));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save configuration');
     } finally {

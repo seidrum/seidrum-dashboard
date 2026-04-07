@@ -18,7 +18,7 @@ export function DeleteConfirmModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="w-full max-w-md rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-xl">
+      <div className="w-full max-w-md rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-xl" role="dialog" aria-modal="true" aria-labelledby="delete-confirm-title">
         {/* Header */}
         <div className="mb-4 flex items-center gap-3">
           <div className="rounded-lg bg-red-900/20 p-2.5">
@@ -33,7 +33,7 @@ export function DeleteConfirmModal({
         </div>
 
         {/* Content */}
-        <h2 className="text-lg font-semibold text-gray-100">Delete Preset?</h2>
+        <h2 id="delete-confirm-title" className="text-lg font-semibold text-gray-100">Delete Preset?</h2>
         <p className="mt-2 text-gray-400">
           Are you sure you want to delete <span className="font-medium text-gray-300">{preset.name}</span>? This action
           cannot be undone.

@@ -33,10 +33,10 @@ export function ExportPresetModal({ data, onClose }: ExportPresetModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="w-full max-w-4xl rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-xl max-h-[90vh] flex flex-col">
+      <div className="w-full max-w-4xl rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-xl max-h-[90vh] flex flex-col" role="dialog" aria-modal="true" aria-labelledby="export-preset-title">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-100">Export Preset</h2>
+          <h2 id="export-preset-title" className="text-xl font-semibold text-gray-100">Export Preset</h2>
           <button
             onClick={onClose}
             className="rounded-lg p-2 text-gray-400 hover:bg-gray-800 hover:text-gray-200"

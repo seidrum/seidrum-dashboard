@@ -34,11 +34,11 @@ export function InstallConfirmModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-lg rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-xl">
+      <div className="w-full max-w-lg rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-xl" role="dialog" aria-modal="true" aria-labelledby="install-confirm-title">
         {/* Header */}
         <div className="mb-4 flex items-start justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-100">Install Package</h2>
+            <h2 id="install-confirm-title" className="text-lg font-semibold text-gray-100">Install Package</h2>
             <p className="mt-1 text-sm text-gray-500">Review and confirm installation details</p>
           </div>
           <button

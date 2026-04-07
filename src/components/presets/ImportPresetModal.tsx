@@ -88,10 +88,10 @@ export function ImportPresetModal({ onClose }: ImportPresetModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="w-full max-w-2xl rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-xl">
+      <div className="w-full max-w-2xl rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-xl" role="dialog" aria-modal="true" aria-labelledby="import-preset-title">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-100">Import Preset</h2>
+          <h2 id="import-preset-title" className="text-xl font-semibold text-gray-100">Import Preset</h2>
           <button
             onClick={onClose}
             className="rounded-lg p-2 text-gray-400 hover:bg-gray-800 hover:text-gray-200"
@@ -129,8 +129,9 @@ export function ImportPresetModal({ onClose }: ImportPresetModalProps) {
           {tab === 'url' && (
             <>
               <div>
-                <label className="block text-sm font-medium text-gray-300">Preset URL</label>
+                <label htmlFor="preset-url" className="block text-sm font-medium text-gray-300">Preset URL</label>
                 <input
+                  id="preset-url"
                   type="url"
                   value={url}
                   onChange={e => {

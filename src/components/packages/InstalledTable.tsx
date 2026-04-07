@@ -38,12 +38,12 @@ export function InstalledTable({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-700 bg-gray-900/50">
-              <th className="px-6 py-3 text-left font-semibold text-gray-300">Name</th>
-              <th className="px-6 py-3 text-left font-semibold text-gray-300">Version</th>
-              <th className="px-6 py-3 text-left font-semibold text-gray-300">Kind</th>
-              <th className="px-6 py-3 text-left font-semibold text-gray-300">Source</th>
-              <th className="px-6 py-3 text-left font-semibold text-gray-300">Installed</th>
-              <th className="px-6 py-3 text-right font-semibold text-gray-300">Actions</th>
+              <th scope="col" className="px-6 py-3 text-left font-semibold text-gray-300">Name</th>
+              <th scope="col" className="px-6 py-3 text-left font-semibold text-gray-300">Version</th>
+              <th scope="col" className="px-6 py-3 text-left font-semibold text-gray-300">Kind</th>
+              <th scope="col" className="px-6 py-3 text-left font-semibold text-gray-300">Source</th>
+              <th scope="col" className="px-6 py-3 text-left font-semibold text-gray-300">Installed</th>
+              <th scope="col" className="px-6 py-3 text-right font-semibold text-gray-300">Actions</th>
             </tr>
           </thead>
           <tbody>

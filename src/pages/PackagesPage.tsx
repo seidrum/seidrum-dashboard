@@ -73,7 +73,6 @@ export function PackagesPage() {
       setSelectedPackageForInstall(null);
     } catch (err) {
       console.error('Failed to install package:', err);
-      throw err;
     } finally {
       setInstallingPackageName(null);
     }
