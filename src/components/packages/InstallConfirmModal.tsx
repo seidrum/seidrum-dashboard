@@ -1,4 +1,4 @@
-import { InstallPreview } from '@/api/packages';
+import type { InstallPreview } from '@/api/packages';
 import { X, Loader2, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 
@@ -26,11 +26,12 @@ export function InstallConfirmModal({
     }
   };
 
-  const kindColor = {
+  const kindColorMap: Record<string, string> = {
     plugin: 'text-blue-300',
     agent: 'text-green-300',
     bundle: 'text-violet-300',
-  }[preview.kind as keyof typeof kindColor] || 'text-blue-300';
+  };
+  const kindColor = kindColorMap[preview.kind] || 'text-blue-300';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">

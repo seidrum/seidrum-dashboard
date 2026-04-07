@@ -1,4 +1,4 @@
-import { PackageInfo } from '@/api/packages';
+import type { PackageInfo } from '@/api/packages';
 import { Loader2 } from 'lucide-react';
 
 interface PackageCardProps {

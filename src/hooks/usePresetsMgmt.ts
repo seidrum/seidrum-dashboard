@@ -5,7 +5,6 @@ import {
   exportPreset,
   deletePreset,
 } from '../api/management';
-import type { ImportPresetRequest } from '../api/management';
 
 export function usePresetsAll() {
   return useQuery({ queryKey: ['presets', 'detailed'], queryFn: listPresetsDetailed });

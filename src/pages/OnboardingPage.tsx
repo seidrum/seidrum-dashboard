@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Rocket, Wrench, Check, Zap } from 'lucide-react';
 import {
   usePresets,
   useApplyPreset,

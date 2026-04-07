@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { X, Loader2, Upload } from 'lucide-react';
 import { useImportPreset } from '@/hooks/usePresetsMgmt';
-import type { ImportPresetRequest } from '@/api/management';
 
 interface ImportPresetModalProps {
   onClose: () => void;

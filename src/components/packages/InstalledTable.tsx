@@ -1,4 +1,4 @@
-import { InstalledPackage } from '@/api/packages';
+import type { InstalledPackage } from '@/api/packages';
 import { Trash2, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 

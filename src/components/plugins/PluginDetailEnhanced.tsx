@@ -1,4 +1,4 @@
-import { X, Power, Zap, Key, Zap as Capability, Clock } from 'lucide-react';
+import { X, Power, Zap, Key, Zap as Capability } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatDate, formatRelative } from '@/lib/utils';
 import type { PluginFull } from '@/api/pluginsMgmt';
