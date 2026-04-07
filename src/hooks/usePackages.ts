@@ -28,7 +28,7 @@ export function useInstallPackage() {
       installPackage(pkg, confirm),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['packages'] });
-      qc.invalidateQueries({ queryKey: ['plugins-full'] });
+      qc.invalidateQueries({ queryKey: ['plugins'] });
       qc.invalidateQueries({ queryKey: ['agents'] });
     },
   });
@@ -40,7 +40,7 @@ export function useUninstallPackage() {
     mutationFn: uninstallPackage,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['packages'] });
-      qc.invalidateQueries({ queryKey: ['plugins-full'] });
+      qc.invalidateQueries({ queryKey: ['plugins'] });
       qc.invalidateQueries({ queryKey: ['agents'] });
     },
   });

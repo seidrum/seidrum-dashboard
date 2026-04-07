@@ -24,6 +24,7 @@ export function ConfigForm({ requirements, onSave }: Props) {
       setLoading(true);
       setError(null);
       await onSave(values);
+      setValues(requirements.reduce((acc: Record<string, string>, req: any) => ({ ...acc, [req.key]: '' }), {}));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save configuration');
     } finally {
@@ -37,13 +38,14 @@ export function ConfigForm({ requirements, onSave }: Props) {
     <div className="space-y-6">
       {requirements.map(req => (
         <div key={req.key}>
-          <label className="block text-sm font-medium text-gray-300">
+          <label htmlFor={`env-${req.key}`} className="block text-sm font-medium text-gray-300">
             {req.label}
             {req.auto_generate && (
               <span className="ml-2 text-xs text-gray-500">(can be auto-generated)</span>
             )}
           </label>
           <input
+            id={`env-${req.key}`}
             type="password"
             value={values[req.key] || ''}
             onChange={e => handleChange(req.key, e.target.value)}

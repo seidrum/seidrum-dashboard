@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Search, Package } from 'lucide-react';
 import {
   usePackageSearch,
@@ -25,9 +25,11 @@ export function PackagesPage() {
   );
   const [installingPackageName, setInstallingPackageName] = useState<string | null>(null);
   const [uninstallingNames, setUninstallingNames] = useState<Set<string>>(new Set());
+  const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  const debouncedQuery = useMemo(() => {
-    return searchQuery;
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 300);
+    return () => clearTimeout(timer);
   }, [searchQuery]);
 
   const kindFilter = selectedKind === 'all' ? undefined : selectedKind;
@@ -55,6 +57,7 @@ export function PackagesPage() {
     } catch (err) {
       console.error('Failed to get install preview:', err);
       setInstallingPackageName(null);
+      setSelectedPackageForInstall(null);
     }
   }, [installMutation]);
 

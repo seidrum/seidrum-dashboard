@@ -72,22 +72,38 @@ export function PluginsPage() {
           onEnable={() => {
             handleEnable(selectedPlugin.name);
             const updated = plugins?.find(p => p.name === selectedPlugin.name);
-            if (updated) setSelectedPlugin(updated);
+            if (updated) {
+              setSelectedPlugin(updated);
+            } else {
+              setSelectedPlugin(null);
+            }
           }}
           onDisable={() => {
             handleDisable(selectedPlugin.name);
             const updated = plugins?.find(p => p.name === selectedPlugin.name);
-            if (updated) setSelectedPlugin(updated);
+            if (updated) {
+              setSelectedPlugin(updated);
+            } else {
+              setSelectedPlugin(null);
+            }
           }}
           onStart={() => {
             handleStart(selectedPlugin.name);
             const updated = plugins?.find(p => p.name === selectedPlugin.name);
-            if (updated) setSelectedPlugin(updated);
+            if (updated) {
+              setSelectedPlugin(updated);
+            } else {
+              setSelectedPlugin(null);
+            }
           }}
           onStop={() => {
             handleStop(selectedPlugin.name);
             const updated = plugins?.find(p => p.name === selectedPlugin.name);
-            if (updated) setSelectedPlugin(updated);
+            if (updated) {
+              setSelectedPlugin(updated);
+            } else {
+              setSelectedPlugin(null);
+            }
           }}
           isLoading={loadingPlugin === selectedPlugin.name}
         />

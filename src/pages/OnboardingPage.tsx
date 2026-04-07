@@ -28,6 +28,8 @@ export function OnboardingPage() {
   const [selectedPreset, setSelectedPreset] = useState<Preset | null>(null);
   const [includeRecommended, setIncludeRecommended] = useState(true);
   const [activationResult, setActivationResult] = useState<ApplyPresetResponse | null>(null);
+  const [configErrors, setConfigErrors] = useState<string[]>([]);
+  const [activationError, setActivationError] = useState<string | null>(null);
 
   const { data: presets, isLoading: presetsLoading } = usePresets();
   const applyPresetMutation = useApplyPreset();
@@ -43,16 +45,26 @@ export function OnboardingPage() {
   };
 
   const handleConfigSaved = async (values: Record<string, string>) => {
+    const errors: string[] = [];
     for (const [key, value] of Object.entries(values)) {
       if (value.trim()) {
-        await setEnvMutation.mutateAsync({ key, value });
+        try {
+          await setEnvMutation.mutateAsync({ key, value });
+        } catch (err) {
+          errors.push(`Failed to set ${key}: ${err instanceof Error ? err.message : 'Unknown error'}`);
+        }
       }
+    }
+    if (errors.length > 0) {
+      setConfigErrors(errors);
+      return;
     }
     setStep(2);
   };
 
   const handleActivatePreset = async () => {
     if (!selectedPreset) return;
+    setActivationError(null);
     try {
       const result = await applyPresetMutation.mutateAsync({
         id: selectedPreset.id,
@@ -61,7 +73,7 @@ export function OnboardingPage() {
       setActivationResult(result);
       setStep(3);
     } catch (err) {
-      throw new Error(err instanceof Error ? err.message : 'Failed to activate preset');
+      setActivationError(err instanceof Error ? err.message : 'Failed to activate preset');
     }
   };
 
@@ -106,6 +118,7 @@ export function OnboardingPage() {
               preset={selectedPreset}
               onSave={handleConfigSaved}
               isSaving={setEnvMutation.isPending}
+              errors={configErrors}
             />
           )}
 
@@ -116,6 +129,7 @@ export function OnboardingPage() {
               onToggleRecommended={() => setIncludeRecommended(!includeRecommended)}
               onActivate={handleActivatePreset}
               isActivating={applyPresetMutation.isPending}
+              error={activationError}
             />
           )}
 
@@ -205,9 +219,10 @@ interface StepConfigureProps {
   preset: Preset;
   onSave: (values: Record<string, string>) => Promise<void>;
   isSaving: boolean;
+  errors?: string[];
 }
 
-function StepConfigure({ preset, onSave, isSaving }: StepConfigureProps) {
+function StepConfigure({ preset, onSave, isSaving, errors = [] }: StepConfigureProps) {
   if (!preset.env_required.length) {
     return (
       <div className="space-y-6">
@@ -231,6 +246,13 @@ function StepConfigure({ preset, onSave, isSaving }: StepConfigureProps) {
         </p>
       </div>
       <ConfigForm requirements={preset.env_required} onSave={onSave} />
+      {errors.length > 0 && (
+        <div className="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+          {errors.map((e, i) => (
+            <p key={i}>{e}</p>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -241,6 +263,7 @@ interface StepActivateProps {
   onToggleRecommended: () => void;
   onActivate: () => Promise<void>;
   isActivating: boolean;
+  error?: string | null;
 }
 
 function StepActivate({
@@ -249,6 +272,7 @@ function StepActivate({
   onToggleRecommended,
   onActivate,
   isActivating,
+  error,
 }: StepActivateProps) {
   return (
     <div className="space-y-6">
@@ -265,6 +289,11 @@ function StepActivate({
         onActivate={onActivate}
         isActivating={isActivating}
       />
+      {error && (
+        <div className="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+          {error}
+        </div>
+      )}
     </div>
   );
 }

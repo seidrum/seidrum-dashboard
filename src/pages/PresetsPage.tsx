@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Upload } from 'lucide-react';
-import { usePresetsAll, useApplyPresetMgmt, useExportPreset, useDeletePreset } from '@/hooks/usePresetsMgmt';
+import { usePresetsAll, useExportPreset, useDeletePreset } from '@/hooks/usePresetsMgmt';
+import { useApplyPreset } from '@/hooks/useOnboarding';
 import { PresetCard } from '@/components/presets/PresetCard';
 import { ImportPresetModal } from '@/components/presets/ImportPresetModal';
 import { ExportPresetModal } from '@/components/presets/ExportPresetModal';
@@ -17,8 +18,9 @@ export function PresetsPage() {
   const [applyingId, setApplyingId] = useState<string | null>(null);
   const [exportingId, setExportingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
-  const applyMutation = useApplyPresetMgmt();
+  const applyMutation = useApplyPreset();
   const exportMutation = useExportPreset();
   const deleteMutation = useDeletePreset();
 
@@ -28,13 +30,14 @@ export function PresetsPage() {
 
   const handleApplyPreset = async (preset: PresetFull) => {
     setApplyingId(preset.id);
+    setActionError(null);
     try {
       await applyMutation.mutateAsync({
         id: preset.id,
         body: { include_recommended: true },
       });
     } catch (err) {
-      console.error('Failed to apply preset:', err);
+      setActionError(err instanceof Error ? err.message : 'Failed to apply preset');
     } finally {
       setApplyingId(null);
     }
@@ -42,11 +45,12 @@ export function PresetsPage() {
 
   const handleExportPreset = async (preset: PresetFull) => {
     setExportingId(preset.id);
+    setActionError(null);
     try {
       const data = await exportMutation.mutateAsync(preset.id);
       setExportData(data);
     } catch (err) {
-      console.error('Failed to export preset:', err);
+      setActionError(err instanceof Error ? err.message : 'Failed to export preset');
     } finally {
       setExportingId(null);
     }
@@ -55,11 +59,12 @@ export function PresetsPage() {
   const handleDeletePreset = async () => {
     if (!presetToDelete) return;
     setDeletingId(presetToDelete.id);
+    setActionError(null);
     try {
       await deleteMutation.mutateAsync(presetToDelete.id);
       setPresetToDelete(null);
     } catch (err) {
-      console.error('Failed to delete preset:', err);
+      setActionError(err instanceof Error ? err.message : 'Failed to delete preset');
     } finally {
       setDeletingId(null);
     }
@@ -78,6 +83,13 @@ export function PresetsPage() {
           Import Preset
         </button>
       </div>
+
+      {/* Error state */}
+      {actionError && (
+        <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+          {actionError}
+        </div>
+      )}
 
       {/* Presets grid */}
       {presets && presets.length > 0 ? (

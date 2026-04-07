@@ -4,9 +4,8 @@ import {
   importPreset,
   exportPreset,
   deletePreset,
-  applyPreset,
 } from '../api/management';
-import type { ImportPresetRequest, ApplyPresetRequest } from '../api/management';
+import type { ImportPresetRequest } from '../api/management';
 
 export function usePresetsAll() {
   return useQuery({ queryKey: ['presets', 'detailed'], queryFn: listPresetsDetailed });
@@ -29,18 +28,5 @@ export function useDeletePreset() {
   return useMutation({
     mutationFn: deletePreset,
     onSuccess: () => qc.invalidateQueries({ queryKey: ['presets'] }),
-  });
-}
-
-export function useApplyPresetMgmt() {
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: ({ id, body }: { id: string; body: ApplyPresetRequest }) =>
-      applyPreset(id, body),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['presets'] });
-      qc.invalidateQueries({ queryKey: ['plugins'] });
-      qc.invalidateQueries({ queryKey: ['agents'] });
-    },
   });
 }

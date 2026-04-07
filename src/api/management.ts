@@ -1,17 +1,4 @@
-const MGMT_BASE = import.meta.env.VITE_MGMT_URL ?? 'http://localhost:3030';
-
-async function mgmtFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const res = await fetch(`${MGMT_BASE}${path}`, {
-    ...options,
-    headers: { 'Content-Type': 'application/json', ...options.headers },
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(text || res.statusText);
-  }
-  if (res.status === 204) return undefined as T;
-  return res.json();
-}
+import { mgmtFetch } from './mgmtClient';
 
 // Onboarding
 export interface OnboardingStatus {
