@@ -38,6 +38,8 @@ export interface Plugin {
 
 export type PluginStatus = 'healthy' | 'degraded' | 'unreachable' | 'unknown';
 
+export type { PluginFull } from '@/api/pluginsMgmt';
+
 export interface Capability {
   name: string;
   plugin_id: string;
@@ -163,4 +165,15 @@ export interface Skill {
   description: string;
   plugin_id: string;
   plugin_name: string;
+}
+
+export interface Agent {
+  id: string;
+  enabled: boolean;
+  description: string | null;
+  prompt: string;
+  tools: string[];
+  scope: string;
+  additional_scopes: string[];
+  subscribe: string[];
 }

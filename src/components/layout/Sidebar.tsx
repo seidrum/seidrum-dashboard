@@ -4,6 +4,9 @@ import {
   MessageSquare,
   Brain,
   Puzzle,
+  Bot,
+  Layers,
+  Package,
   Activity,
   Key,
   Users,
@@ -20,6 +23,9 @@ const mainNav = [
   { to: '/conversations', icon: MessageSquare, label: 'Conversations' },
   { to: '/knowledge', icon: Brain, label: 'Knowledge' },
   { to: '/plugins', icon: Puzzle, label: 'Plugins' },
+  { to: '/agents', icon: Bot, label: 'Agents' },
+  { to: '/presets', icon: Layers, label: 'Presets' },
+  { to: '/packages', icon: Package, label: 'Packages' },
   { to: '/traces', icon: Activity, label: 'Traces' },
   { to: '/api-keys', icon: Key, label: 'API Keys' },
   { to: '/settings', icon: Settings, label: 'Settings' },
@@ -49,7 +55,10 @@ export function Sidebar() {
       }`}
     >
       <div className="flex h-14 items-center justify-between border-b border-gray-800 px-4">
-        {!collapsed && <span className="text-lg font-semibold text-gray-100">Seidrum</span>}
+        <div className="flex items-center gap-2.5">
+          <img src="/seidrum-icon.svg" alt="Seidrum" className="h-7 w-7 shrink-0" />
+          {!collapsed && <span className="text-lg font-semibold text-gray-100">Seidrum</span>}
+        </div>
         <button
           onClick={() => setCollapsed(c => !c)}
           className="rounded p-1 text-gray-400 hover:bg-gray-800 hover:text-gray-200"
