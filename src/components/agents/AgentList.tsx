@@ -66,6 +66,7 @@ export function AgentList({ agents, onSelect }: Props) {
           checked={a.enabled}
           onChange={() => handleToggle(a)}
           disabled={toggling === a.id}
+          label={`Enable agent ${a.id}`}
         />
       ),
     },

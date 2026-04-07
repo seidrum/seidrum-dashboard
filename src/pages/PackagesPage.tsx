@@ -24,6 +24,7 @@ export function PackagesPage() {
     null,
   );
   const [installingPackageName, setInstallingPackageName] = useState<string | null>(null);
+  const [previewLoadingName, setPreviewLoadingName] = useState<string | null>(null);
   const [uninstallingNames, setUninstallingNames] = useState<Set<string>>(new Set());
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
@@ -44,7 +45,7 @@ export function PackagesPage() {
 
   const handleInstallClick = useCallback(async (pkg: PackageInfo) => {
     setSelectedPackageForInstall(pkg);
-    setInstallingPackageName(pkg.name);
+    setPreviewLoadingName(pkg.name);
     try {
       const result = await installMutation.mutateAsync({
         pkg: pkg.name,
@@ -56,13 +57,15 @@ export function PackagesPage() {
       }
     } catch (err) {
       console.error('Failed to get install preview:', err);
-      setInstallingPackageName(null);
       setSelectedPackageForInstall(null);
+    } finally {
+      setPreviewLoadingName(null);
     }
   }, [installMutation]);
 
   const handleConfirmInstall = useCallback(async () => {
     if (!selectedPackageForInstall) return;
+    setInstallingPackageName(selectedPackageForInstall.name);
 
     try {
       await installMutation.mutateAsync({
@@ -179,7 +182,7 @@ export function PackagesPage() {
                   key={pkg.name}
                   pkg={pkg}
                   onInstall={() => handleInstallClick(pkg)}
-                  isInstalling={installingPackageName === pkg.name}
+                  isInstalling={previewLoadingName === pkg.name || installingPackageName === pkg.name}
                 />
               ))}
             </div>

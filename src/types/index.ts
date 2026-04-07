@@ -38,16 +38,7 @@ export interface Plugin {
 
 export type PluginStatus = 'healthy' | 'degraded' | 'unreachable' | 'unknown';
 
-export interface PluginFull {
-  name: string;
-  binary: string;
-  enabled: boolean;
-  running: boolean;
-  description: string | null;
-  capabilities: string[];
-  env_vars: Array<{ key: string; has_value: boolean }>;
-  last_heartbeat: string | null;
-}
+export type { PluginFull } from '@/api/pluginsMgmt';
 
 export interface Capability {
   name: string;

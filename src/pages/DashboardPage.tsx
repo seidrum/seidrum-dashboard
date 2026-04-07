@@ -11,6 +11,9 @@ import { EmptyState } from '@/components/common/EmptyState';
 export function DashboardPage() {
   const navigate = useNavigate();
   const overview = useOverview();
+  // Using legacy usePlugins hook for onboarding redirect check only.
+  // No longer collides with usePluginsFull (different cache keys: ['plugins'] vs ['mgmt', 'plugins']).
+  // DashboardPage only needs plugin count for first-run onboarding logic, not full plugin data.
   const plugins = usePlugins();
   const { data: onboarding } = useOnboardingStatus();
 

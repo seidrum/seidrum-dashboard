@@ -10,7 +10,7 @@ export function usePackageSearch(query: string, kind?: string) {
   return useQuery({
     queryKey: ['packages', 'search', query, kind],
     queryFn: () => searchPackages(query, kind),
-    enabled: query.length > 0 || !kind,
+    enabled: query.length > 0 || !!kind,
   });
 }
 
@@ -28,8 +28,10 @@ export function useInstallPackage() {
       installPackage(pkg, confirm),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['packages'] });
+      qc.invalidateQueries({ queryKey: ['mgmt', 'plugins'] });
       qc.invalidateQueries({ queryKey: ['plugins'] });
       qc.invalidateQueries({ queryKey: ['agents'] });
+      qc.invalidateQueries({ queryKey: ['installed-packages'] });
     },
   });
 }
@@ -40,8 +42,10 @@ export function useUninstallPackage() {
     mutationFn: uninstallPackage,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['packages'] });
+      qc.invalidateQueries({ queryKey: ['mgmt', 'plugins'] });
       qc.invalidateQueries({ queryKey: ['plugins'] });
       qc.invalidateQueries({ queryKey: ['agents'] });
+      qc.invalidateQueries({ queryKey: ['installed-packages'] });
     },
   });
 }

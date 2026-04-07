@@ -21,14 +21,18 @@ export function PluginsPage() {
 
   const [selectedPlugin, setSelectedPlugin] = useState<PluginFull | null>(null);
   const [loadingPlugin, setLoadingPlugin] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return <EmptyState title="Failed to load plugins" description={error.message} />;
 
   const handleEnable = async (name: string) => {
     setLoadingPlugin(name);
+    setActionError(null);
     try {
       await enableMutation.mutateAsync(name);
+    } catch (err) {
+      setActionError(`Failed to enable: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setLoadingPlugin(null);
     }
@@ -36,8 +40,11 @@ export function PluginsPage() {
 
   const handleDisable = async (name: string) => {
     setLoadingPlugin(name);
+    setActionError(null);
     try {
       await disableMutation.mutateAsync(name);
+    } catch (err) {
+      setActionError(`Failed to disable: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setLoadingPlugin(null);
     }
@@ -45,8 +52,11 @@ export function PluginsPage() {
 
   const handleStart = async (name: string) => {
     setLoadingPlugin(name);
+    setActionError(null);
     try {
       await startMutation.mutateAsync(name);
+    } catch (err) {
+      setActionError(`Failed to start: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setLoadingPlugin(null);
     }
@@ -54,8 +64,11 @@ export function PluginsPage() {
 
   const handleStop = async (name: string) => {
     setLoadingPlugin(name);
+    setActionError(null);
     try {
       await stopMutation.mutateAsync(name);
+    } catch (err) {
+      setActionError(`Failed to stop: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setLoadingPlugin(null);
     }
@@ -64,6 +77,12 @@ export function PluginsPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-100">Plugins</h1>
+
+      {actionError && (
+        <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+          {actionError}
+        </div>
+      )}
 
       {selectedPlugin ? (
         <PluginDetailEnhanced

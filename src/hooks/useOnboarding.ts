@@ -32,6 +32,7 @@ export function useApplyPreset() {
       applyPreset(id, body),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['onboarding'] });
+      qc.invalidateQueries({ queryKey: ['mgmt', 'plugins'] });
       qc.invalidateQueries({ queryKey: ['plugins'] });
       qc.invalidateQueries({ queryKey: ['agents'] });
     },

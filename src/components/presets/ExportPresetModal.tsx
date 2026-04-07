@@ -149,28 +149,40 @@ export function ExportPresetModal({ data, onClose }: ExportPresetModalProps) {
   );
 }
 
+function yamlQuote(value: string): string {
+  if (/[:{}\[\],&*#?|\-><!%@`"'\n]/.test(value) || value.trim() !== value) {
+    return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`;
+  }
+  return value;
+}
+
 function generatePresetYaml(data: PresetExport): string {
   const { preset } = data;
-  return `id: ${preset.id}
-name: ${preset.name}
-description: ${preset.description}
-icon: ${preset.icon}
-source: ${preset.source}
-${preset.version ? `version: ${preset.version}\n` : ''}${preset.author ? `author: ${preset.author}\n` : ''}${preset.repository ? `repository: ${preset.repository}\n` : ''}llm_provider: ${preset.llm_provider || 'null'}
+  const envRequiredList = preset.env_required && preset.env_required.length > 0
+    ? preset.env_required.map(e => `    - ${yamlQuote(e)}`).join('\n')
+    : '';
+
+  return `id: ${yamlQuote(preset.id)}
+name: ${yamlQuote(preset.name)}
+description: ${yamlQuote(preset.description)}
+icon: ${yamlQuote(preset.icon)}
+source: ${yamlQuote(preset.source)}
+${preset.version ? `version: ${yamlQuote(preset.version)}\n` : ''}${preset.author ? `author: ${yamlQuote(preset.author)}\n` : ''}${preset.repository ? `repository: ${yamlQuote(preset.repository)}\n` : ''}llm_provider: ${preset.llm_provider ? yamlQuote(preset.llm_provider) : 'null'}
 
 plugins:
   required:
-${preset.plugins.required.map(p => `    - ${p}`).join('\n')}
+${preset.plugins.required.map(p => `    - ${yamlQuote(p)}`).join('\n')}
   recommended:
-${preset.plugins.recommended.map(p => `    - ${p}`).join('\n')}
+${preset.plugins.recommended.map(p => `    - ${yamlQuote(p)}`).join('\n')}
 
 agents:
   required:
-${preset.agents.required.map(a => `    - ${a}`).join('\n')}
+${preset.agents.required.map(a => `    - ${yamlQuote(a)}`).join('\n')}
   recommended:
-${preset.agents.recommended.map(a => `    - ${a}`).join('\n')}
+${preset.agents.recommended.map(a => `    - ${yamlQuote(a)}`).join('\n')}
 
-env_required: []
+env_required:
+${envRequiredList}
 `;
 }
 

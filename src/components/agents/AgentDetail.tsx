@@ -45,7 +45,7 @@ export function AgentDetail({ agent, onClose }: Props) {
             <p className="text-sm font-medium text-gray-200">Agent Status</p>
             <p className="mt-0.5 text-xs text-gray-400">{agent.enabled ? 'Active' : 'Inactive'}</p>
           </div>
-          <Toggle checked={agent.enabled} onChange={handleToggle} disabled={toggling} />
+          <Toggle checked={agent.enabled} onChange={handleToggle} disabled={toggling} label={`Enable agent ${agent.id}`} />
         </div>
 
         <div>
