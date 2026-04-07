@@ -7,8 +7,12 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { LoginPage } from '@/pages/LoginPage';
 import { RegisterPage } from '@/pages/RegisterPage';
+import { OnboardingPage } from '@/pages/OnboardingPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { PluginsPage } from '@/pages/PluginsPage';
+import { AgentsPage } from '@/pages/AgentsPage';
+import { PresetsPage } from '@/pages/PresetsPage';
+import { PackagesPage } from '@/pages/PackagesPage';
 import { TracesPage } from '@/pages/TracesPage';
 import { TraceDetailPage } from '@/pages/TraceDetailPage';
 import { UsersPage } from '@/pages/UsersPage';
@@ -38,6 +42,7 @@ export default function App() {
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/onboarding" element={<OnboardingPage />} />
 
               <Route element={<ProtectedRoute />}>
                 <Route element={<AppLayout />}>
@@ -46,6 +51,9 @@ export default function App() {
                   <Route path="conversations/:id" element={<ConversationDetailPage />} />
                   <Route path="knowledge" element={<KnowledgePage />} />
                   <Route path="plugins" element={<PluginsPage />} />
+                  <Route path="agents" element={<AgentsPage />} />
+                  <Route path="presets" element={<PresetsPage />} />
+                  <Route path="packages" element={<PackagesPage />} />
                   <Route path="traces" element={<TracesPage />} />
                   <Route path="traces/:traceId" element={<TraceDetailPage />} />
                   <Route path="api-keys" element={<ApiKeysPage />} />
